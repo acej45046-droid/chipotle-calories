@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chipotle Calories – Build a Smarter, Healthier Bowl</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #c8102e;
+    --brand-dark: #8b0000;
+    --brand-light: #ff4a5a;
+    --gold: #d4a017;
+    --gold-light: #f5c842;
+    --bg: #0f0a06;
+    --surface: #1a110a;
+    --surface2: #221608;
+    --text: #f5ede4;
+    --muted: #9a8476;
+    --border: rgba(200,120,50,0.18);
+    --accent: #e8520a;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.7;overflow-x:hidden}
+
+  /* ─── HEADER ─── */
+  header{
+    background:linear-gradient(90deg,var(--brand-dark) 0%,#1a0000 50%,var(--brand-dark) 100%);
+    border-bottom:2px solid var(--gold);
+    position:sticky;top:0;z-index:999;
+    box-shadow:0 4px 30px rgba(196,16,46,0.4);
+  }
+  .header-inner{
+    max-width:1400px;margin:0 auto;padding:0 2rem;
+    display:flex;align-items:center;justify-content:space-between;
+    height:64px;
+  }
+  .logo{
+    display:flex;align-items:center;gap:0.7rem;text-decoration:none;
+  }
+  .logo-icon{
+    width:36px;height:36px;background:var(--gold);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+    box-shadow:0 0 12px var(--gold-light);
+  }
+  .logo-text{
+    font-family:'Playfair Display',serif;font-size:1.25rem;
+    color:var(--text);letter-spacing:.04em;white-space:nowrap;
+  }
+  .logo-text span{color:var(--gold);}
+  nav{display:flex;align-items:center;gap:2rem;}
+  nav a{
+    color:rgba(245,237,228,0.75);text-decoration:none;font-size:.85rem;
+    font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+    transition:color .2s;
+  }
+  nav a:hover{color:var(--gold-light);}
+  .nav-cta{
+    background:var(--brand);color:#fff!important;
+    padding:.45rem 1.1rem;border-radius:4px;
+    border:1px solid var(--brand-light);
+    transition:background .2s,transform .15s!important;
+  }
+  .nav-cta:hover{background:var(--brand-light)!important;transform:translateY(-1px);}
+
+  /* ─── HERO ─── */
+  .hero{
+    position:relative;min-height:88vh;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    background:radial-gradient(ellipse 120% 80% at 60% 40%, #3a0a00 0%, var(--bg) 70%);
+  }
+  .hero-bg-grid{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(200,120,50,.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(200,120,50,.04) 1px,transparent 1px);
+    background-size:48px 48px;
+  }
+  .hero-blob{
+    position:absolute;top:-120px;right:-80px;
+    width:600px;height:600px;border-radius:50%;
+    background:radial-gradient(circle,rgba(196,16,46,.18) 0%,transparent 70%);
+    animation:pulse 6s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  .hero-content{
+    position:relative;z-index:2;
+    max-width:900px;padding:4rem 2rem;text-align:center;
+  }
+  .hero-badge{
+    display:inline-block;
+    background:rgba(212,160,23,.12);border:1px solid rgba(212,160,23,.4);
+    color:var(--gold-light);font-size:.78rem;letter-spacing:.14em;
+    text-transform:uppercase;padding:.35rem 1.1rem;border-radius:20px;
+    margin-bottom:1.6rem;animation:fadeUp .8s ease both;
+  }
+  .hero h1{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2.6rem,6vw,5rem);
+    line-height:1.1;font-weight:900;
+    color:var(--text);margin-bottom:1.4rem;
+    animation:fadeUp .8s .15s ease both;
+  }
+  .hero h1 em{color:var(--brand-light);font-style:normal;}
+  .hero-sub{
+    font-size:1.1rem;color:var(--muted);max-width:640px;margin:0 auto 2.2rem;
+    animation:fadeUp .8s .3s ease both;
+  }
+  .hero-link{
+    display:inline-flex;align-items:center;gap:.55rem;
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;text-decoration:none;padding:.85rem 2rem;
+    border-radius:6px;font-weight:600;font-size:1rem;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 4px 24px rgba(196,16,46,.4);
+    transition:transform .2s,box-shadow .2s;
+    animation:fadeUp .8s .45s ease both;
+  }
+  .hero-link:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(196,16,46,.55);}
+  .hero-link svg{transition:transform .2s;}
+  .hero-link:hover svg{transform:translateX(4px);}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ─── SECTION WRAPPER ─── */
+  section{width:100%;padding:6rem 2rem;}
+  .container{max-width:1200px;margin:0 auto;}
+  .section-label{
+    font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;margin-bottom:.8rem;
+  }
+  .section-title{
+    font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);
+    font-weight:700;color:var(--text);line-height:1.2;margin-bottom:1.2rem;
+  }
+  .section-title span{color:var(--brand-light);}
+  .section-intro{color:var(--muted);font-size:1.05rem;max-width:680px;margin-bottom:3rem;}
+
+  /* ─── OVERVIEW ─── */
+  .overview{background:var(--surface);}
+  .overview-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;
+  }
+  .overview-text p{color:var(--muted);margin-bottom:1.1rem;font-size:1rem;}
+  .stat-cards{
+    display:grid;grid-template-columns:1fr 1fr;gap:1rem;
+  }
+  .stat-card{
+    background:var(--surface2);border:1px solid var(--border);border-radius:10px;
+    padding:1.4rem;text-align:center;
+    transition:transform .2s,border-color .2s;
+  }
+  .stat-card:hover{transform:translateY(-3px);border-color:var(--gold);}
+  .stat-card .num{
+    font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;
+    color:var(--brand-light);line-height:1;
+  }
+  .stat-card .label{font-size:.78rem;color:var(--muted);margin-top:.3rem;letter-spacing:.05em;}
+
+  /* ─── TABLE ─── */
+  .table-section{background:var(--bg);}
+  .table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;}
+  thead{background:linear-gradient(90deg,var(--brand-dark),#2a0000);}
+  thead th{
+    padding:1rem 1.2rem;text-align:left;color:var(--gold-light);
+    font-weight:600;letter-spacing:.06em;font-size:.82rem;text-transform:uppercase;
+    white-space:nowrap;
+  }
+  tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
+  tbody tr:hover{background:rgba(200,100,30,.07);}
+  tbody td{padding:.85rem 1.2rem;color:var(--text);}
+  tbody td:first-child{font-weight:500;color:var(--text);}
+  tbody td:not(:first-child){color:var(--muted);}
+  .cal-high{color:var(--brand-light)!important;font-weight:600;}
+  .cal-mid{color:var(--gold)!important;font-weight:500;}
+  .cal-low{color:#6ecf82!important;font-weight:500;}
+
+  /* ─── TIPS GRID ─── */
+  .tips-section{background:var(--surface);}
+  .tips-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.6rem;
+  }
+  .tip-card{
+    background:var(--surface2);border:1px solid var(--border);border-radius:12px;
+    padding:1.8rem;position:relative;overflow:hidden;
+    transition:transform .2s,border-color .2s;
+  }
+  .tip-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--brand),var(--gold));
+  }
+  .tip-card:hover{transform:translateY(-4px);border-color:rgba(212,160,23,.35);}
+  .tip-icon{font-size:1.8rem;margin-bottom:.9rem;}
+  .tip-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:.6rem;color:var(--text);}
+  .tip-card p{font-size:.9rem;color:var(--muted);line-height:1.6;}
+
+  /* ─── DIET GOALS ─── */
+  .diet-section{background:var(--bg);}
+  .diet-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;
+  }
+  .diet-card{
+    border-radius:12px;padding:2rem;border:1px solid var(--border);
+    transition:transform .2s;position:relative;overflow:hidden;
+  }
+  .diet-card:hover{transform:translateY(-4px);}
+  .diet-card.keto{background:linear-gradient(135deg,#0f1a0a,#1a2a10);}
+  .diet-card.keto::before{content:'';position:absolute;inset:0;border-radius:12px;background:linear-gradient(135deg,rgba(106,187,70,.08),transparent);}
+  .diet-card.vegan{background:linear-gradient(135deg,#0a1520,#0f2030);}
+  .diet-card.vegan::before{content:'';position:absolute;inset:0;border-radius:12px;background:linear-gradient(135deg,rgba(70,150,187,.08),transparent);}
+  .diet-card.wl{background:linear-gradient(135deg,#1a0a14,#280a1a);}
+  .diet-card.wl::before{content:'';position:absolute;inset:0;border-radius:12px;background:linear-gradient(135deg,rgba(196,16,46,.08),transparent);}
+  .diet-card h3{
+    font-family:'Playfair Display',serif;font-size:1.2rem;
+    margin-bottom:.5rem;position:relative;z-index:1;
+  }
+  .diet-card.keto h3{color:#8fe86a;}
+  .diet-card.vegan h3{color:#6ac4e8;}
+  .diet-card.wl h3{color:var(--brand-light);}
+  .diet-card p{font-size:.9rem;color:var(--muted);line-height:1.6;position:relative;z-index:1;}
+  .diet-tag{
+    display:inline-block;font-size:.72rem;letter-spacing:.1em;
+    text-transform:uppercase;padding:.25rem .75rem;border-radius:20px;
+    margin-bottom:.8rem;font-weight:600;position:relative;z-index:1;
+  }
+  .diet-card.keto .diet-tag{background:rgba(106,187,70,.15);color:#8fe86a;border:1px solid rgba(106,187,70,.3);}
+  .diet-card.vegan .diet-tag{background:rgba(70,150,187,.15);color:#6ac4e8;border:1px solid rgba(70,150,187,.3);}
+  .diet-card.wl .diet-tag{background:rgba(196,16,46,.15);color:var(--brand-light);border:1px solid rgba(196,16,46,.3);}
+
+  /* ─── CTA BAND ─── */
+  .cta-band{
+    background:linear-gradient(135deg,var(--brand-dark) 0%,#1a0000 50%,var(--brand-dark) 100%);
+    padding:5rem 2rem;text-align:center;border-top:1px solid rgba(212,160,23,.25);
+    border-bottom:1px solid rgba(212,160,23,.25);
+  }
+  .cta-band h2{
+    font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);
+    color:var(--text);margin-bottom:1rem;
+  }
+  .cta-band p{color:var(--muted);max-width:560px;margin:0 auto 2rem;font-size:1.05rem;}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:.5rem;
+    background:var(--gold);color:#0f0a06;
+    padding:.9rem 2.2rem;border-radius:6px;
+    font-weight:700;font-size:1rem;text-decoration:none;
+    transition:background .2s,transform .15s;
+  }
+  .cta-btn:hover{background:var(--gold-light);transform:translateY(-2px);}
+
+  /* ─── FOOTER ─── */
+  footer{
+    background:#08050302;border-top:1px solid var(--border);
+    padding:3.5rem 2rem 2rem;
+  }
+  .footer-inner{
+    max-width:1200px;margin:0 auto;
+    display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;
+  }
+  .footer-brand p{color:var(--muted);font-size:.88rem;margin-top:.8rem;max-width:300px;line-height:1.7;}
+  .footer-col h4{
+    font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:1rem;font-weight:600;
+  }
+  .footer-col ul{list-style:none;}
+  .footer-col li{margin-bottom:.55rem;}
+  .footer-col a{color:var(--muted);text-decoration:none;font-size:.88rem;transition:color .2s;}
+  .footer-col a:hover{color:var(--text);}
+  .social-row{display:flex;gap:.75rem;margin-top:1.2rem;}
+  .social-btn{
+    width:38px;height:38px;border-radius:8px;
+    background:var(--surface2);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    text-decoration:none;color:var(--muted);font-size:1rem;
+    transition:background .2s,color .2s,border-color .2s;
+  }
+  .social-btn:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+  .footer-bottom{
+    max-width:1200px;margin:2.5rem auto 0;
+    border-top:1px solid var(--border);padding-top:1.5rem;
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+  }
+  .footer-bottom p{font-size:.8rem;color:var(--muted);}
+  .footer-bottom a{color:var(--muted);text-decoration:none;transition:color .2s;}
+  .footer-bottom a:hover{color:var(--gold);}
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width:900px){
+    .overview-grid{grid-template-columns:1fr;}
+    .footer-inner{grid-template-columns:1fr 1fr;}
+  }
+  @media(max-width:640px){
+    nav a:not(.nav-cta){display:none;}
+    .stat-cards{grid-template-columns:1fr 1fr;}
+    .footer-inner{grid-template-columns:1fr;}
+    .footer-bottom{flex-direction:column;text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">🌯</div>
+      <span class="logo-text">Chipotle<span>Calories</span>.guide</span>
+    </a>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#table">Calorie Chart</a>
+      <a href="#tips">Pro Tips</a>
+      <a href="#diets">Diet Goals</a>
+      <a href="https://wetherspoonsmenuprices.co.uk/" target="_blank" rel="noopener" class="nav-cta">Menu Prices ↗</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero" id="top">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-blob"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🌶️ The Ultimate Nutrition Guide</div>
+    <h1>Build a <em>Smarter</em>,<br>Healthier Chipotle Bowl</h1>
+    <p class="hero-sub">
+      Understand every calorie in your order — from tortilla to guac — and make choices that match your health goals without sacrificing flavor.
+    </p>
+    <a href="https://wetherspoonsmenuprices.co.uk/" target="_blank" rel="noopener" class="hero-link">
+      Explore Full Menu Prices
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════ OVERVIEW ══════════════ -->
+<section class="overview" id="overview">
+  <div class="container">
+    <div class="overview-grid">
+      <div class="overview-text">
+        <p class="section-label">The Big Picture</p>
+        <h2 class="section-title">How Chipotle Calories <span>Add Up</span></h2>
+        <p>Most people underestimate how quickly calories build at Chipotle. A plain burrito bowl base starts at zero calories. Add chicken, rice, beans, salsa, cheese, sour cream, and guacamole, and you are looking at well over 800 calories — before you even touch the chips.</p>
+        <p>The flour tortilla used in a burrito is one of the biggest culprits. On its own, it carries around 320 calories and nearly 50 grams of carbohydrates. Switching from a burrito to a bowl instantly saves hundreds of calories before changing a single topping.</p>
+        <p>The good news is Chipotle gives you full control. You can build a meal anywhere from 350 to 1,200 calories depending on your choices. The key is knowing which ingredients carry the most weight.</p>
+      </div>
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="num">320</div>
+          <div class="label">Calories in flour tortilla alone</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">540</div>
+          <div class="label">Calories in a side of chips</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">64g</div>
+          <div class="label">Protein with double chicken</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">395</div>
+          <div class="label">Calories in a lean salad bowl</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CALORIE TABLE ══════════════ -->
+<section class="table-section" id="table">
+  <div class="container">
+    <p class="section-label">Full Breakdown</p>
+    <h2 class="section-title">Chipotle Calorie <span>Chart</span></h2>
+    <p class="section-intro">Standard serving sizes. Color coding: <span style="color:#6ecf82;font-weight:600;">Green</span> = low calorie · <span style="color:var(--gold);font-weight:600;">Gold</span> = moderate · <span style="color:var(--brand-light);font-weight:600;">Red</span> = high calorie.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ingredient</th>
+            <th>Calories</th>
+            <th>Protein (g)</th>
+            <th>Fat (g)</th>
+            <th>Carbs (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Flour Tortilla</td><td class="cal-high">320</td><td>9</td><td>9</td><td>49</td></tr>
+          <tr><td>Corn Tortillas (3)</td><td class="cal-low">80</td><td>2</td><td>1</td><td>15</td></tr>
+          <tr><td>Bowl Base</td><td class="cal-low">0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>White Rice</td><td class="cal-mid">210</td><td>4</td><td>4</td><td>40</td></tr>
+          <tr><td>Brown Rice</td><td class="cal-mid">210</td><td>5</td><td>2</td><td>36</td></tr>
+          <tr><td>Black Beans</td><td class="cal-mid">130</td><td>8</td><td>1</td><td>23</td></tr>
+          <tr><td>Pinto Beans</td><td class="cal-mid">130</td><td>8</td><td>1</td><td>21</td></tr>
+          <tr><td>Chicken</td><td class="cal-mid">180</td><td>32</td><td>7</td><td>0</td></tr>
+          <tr><td>Steak</td><td class="cal-mid">150</td><td>21</td><td>6</td><td>1</td></tr>
+          <tr><td>Barbacoa</td><td class="cal-mid">170</td><td>24</td><td>7</td><td>2</td></tr>
+          <tr><td>Carnitas</td><td class="cal-mid">210</td><td>23</td><td>12</td><td>0</td></tr>
+          <tr><td>Sofritas (Vegan)</td><td class="cal-mid">150</td><td>8</td><td>10</td><td>9</td></tr>
+          <tr><td>Cheese</td><td class="cal-mid">110</td><td>6</td><td>9</td><td>1</td></tr>
+          <tr><td>Sour Cream</td><td class="cal-mid">110</td><td>2</td><td>9</td><td>2</td></tr>
+          <tr><td>Guacamole</td><td class="cal-high">230</td><td>2</td><td>22</td><td>8</td></tr>
+          <tr><td>Fresh Tomato Salsa</td><td class="cal-low">15</td><td>1</td><td>0</td><td>3</td></tr>
+          <tr><td>Corn Salsa</td><td class="cal-low">80</td><td>3</td><td>1.5</td><td>16</td></tr>
+          <tr><td>Fajita Vegetables</td><td class="cal-low">20</td><td>1</td><td>0</td><td>5</td></tr>
+          <tr><td>Romaine Lettuce</td><td class="cal-low">5</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td>Chips (side)</td><td class="cal-high">540</td><td>7</td><td>27</td><td>62</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TIPS ══════════════ -->
+<section class="tips-section" id="tips">
+  <div class="container">
+    <p class="section-label">Smart Ordering</p>
+    <h2 class="section-title">Pro Tips for <span>Fitness Goals</span></h2>
+    <p class="section-intro">These strategies help you hit your protein targets, cut unnecessary calories, and still enjoy every bite.</p>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">🍗</div>
+        <h3>Double Your Protein</h3>
+        <p>Ordering double chicken bumps your meal to 360 calories and 64 grams of protein — more than most protein shakes for a comparable calorie cost.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🥣</div>
+        <h3>Bowl Over Burrito</h3>
+        <p>Skipping the flour tortilla instantly saves 320 calories and 49 grams of carbohydrates — calories you can invest in extra protein instead.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🫘</div>
+        <h3>Add Black Beans</h3>
+        <p>Beans provide 8 grams of plant-based protein and are loaded with fiber — keeping you fuller for longer at just 130 calories per serving.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🌾</div>
+        <h3>Brown vs. White Rice</h3>
+        <p>Both are 210 calories, but brown rice offers more fiber and a lower glycemic impact — a small swap with a meaningful payoff.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🍅</div>
+        <h3>Go Wild on Salsas</h3>
+        <p>Fresh tomato salsa and green tomatillo are practically calorie-free. Load them on freely for bold flavor without the fat or carbs.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🚫</div>
+        <h3>Skip the Chips</h3>
+        <p>At 540 calories per side, chips can nearly double your meal's calorie count. Skip them or share if you need that crunch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ DIET GOALS ══════════════ -->
+<section class="diet-section" id="diets">
+  <div class="container">
+    <p class="section-label">Customized For You</p>
+    <h2 class="section-title">Chipotle for Every <span>Diet Goal</span></h2>
+    <p class="section-intro">No matter your eating style, there is a Chipotle build that works perfectly for you.</p>
+    <div class="diet-grid">
+      <div class="diet-card keto">
+        <span class="diet-tag">Keto Friendly</span>
+        <h3>Keto Bowl</h3>
+        <p>Skip all rice and beans. Build around steak or chicken with extra guacamole, cheese, and fresh salsas. Keeps net carbs under 10 grams while delivering healthy fats and protein.</p>
+      </div>
+      <div class="diet-card vegan">
+        <span class="diet-tag">Plant Based</span>
+        <h3>Vegan Bowl</h3>
+        <p>Sofritas make an excellent protein base. Combine with brown rice, black beans, fajita vegetables, and corn salsa for a satisfying plant-based bowl around 600 calories.</p>
+      </div>
+      <div class="diet-card wl">
+        <span class="diet-tag">Weight Loss</span>
+        <h3>Lean Salad Bowl</h3>
+        <p>A salad bowl with chicken, fajita vegetables, and one or two salsas keeps your meal under 450 calories while delivering enough protein to stay full until your next meal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CTA BAND ══════════════ -->
+<div class="cta-band">
+  <h2>Ready to Order Smarter?</h2>
+  <p>Explore full restaurant menu prices and plan your next meal with confidence. Every healthy choice starts with the right information.</p>
+  <a href="https://wetherspoonsmenuprices.co.uk/" target="_blank" rel="noopener" class="cta-btn">
+    🍽️ View Full Menu Prices
+  </a>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="text-decoration:none;">
+        <div class="logo-icon">🌯</div>
+        <span class="logo-text">Chipotle<span>Calories</span>.guide</span>
+      </a>
+      <p>Your trusted source for fast-casual nutrition information. Make smarter choices without sacrificing the flavors you love.</p>
+      <div class="social-row">
+        <a href="#" class="social-btn" title="Twitter/X" aria-label="Twitter">𝕏</a>
+        <a href="#" class="social-btn" title="Facebook" aria-label="Facebook">f</a>
+        <a href="#" class="social-btn" title="Instagram" aria-label="Instagram">📷</a>
+        <a href="#" class="social-btn" title="Pinterest" aria-label="Pinterest">𝐏</a>
+        <a href="#" class="social-btn" title="YouTube" aria-label="YouTube">▶</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#overview">Calorie Overview</a></li>
+        <li><a href="#table">Full Calorie Chart</a></li>
+        <li><a href="#tips">Pro Ordering Tips</a></li>
+        <li><a href="#diets">Diet Goal Guides</a></li>
+        <li><a href="https://wetherspoonsmenuprices.co.uk/" target="_blank" rel="noopener">Menu Prices</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Nutrition Calculator</a></li>
+        <li><a href="#">High Protein Meals</a></li>
+        <li><a href="#">Keto Fast Food Guide</a></li>
+        <li><a href="#">Vegan Options</a></li>
+        <li><a href="#">Low Calorie Picks</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 ChipotleCalories.guide — Nutritional information based on publicly available data.</p>
+    <p>
+      <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+      <a href="#">Terms of Use</a> &nbsp;·&nbsp;
+      <a href="https://wetherspoonsmenuprices.co.uk/" target="_blank" rel="noopener">Menu Prices ↗</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
